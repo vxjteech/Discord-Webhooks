@@ -1,0 +1,18 @@
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local ServerStorage = game:GetService("ServerStorage")
+local ArrestModule = require(ServerStorage:WaitForChild("ReportModule"))
+local Webhook = ReplicatedStorage:WaitForChild("ReportWebhook")
+
+Webhook.OnServerEvent:Connect(function(Player, Argument, contentTable)
+	if not Player then return end
+	if not Argument then return end
+	if Player and Argument == "SendWebhook" and contentTable ~= nil then
+		ReportModule.SendWebhook(contentTable)
+	elseif Player and Argument == "ModJoinServer" then
+		pcall(function()
+			CodeMap = Database:GetAsync("JoinCode") or {}
+		end)
+		JoinServer(Player, CodeMap["ID"..contentTable])
+	end
+end)
