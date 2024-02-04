@@ -1,0 +1,46 @@
+local module = {}
+
+local Players = game:GetService("Players")
+local HttpService = game:GetService("HttpService")
+local ServerStorage = game:GetService("ServerStorage")
+local URL = "https://webhook.lewisakura.moe/api/webhooks/1095024734363729931/sSPcWQDwtIx5Ju5rfcwECPwcFpsnOtD8lyE9tDw8ph04jtavfwdiPcz1wElAxOm6zj-c"
+
+module.SendWebhook = function(contentTable)
+	if not tostring(contentTable[3]) then return end
+	local data = {
+		["content"] = ":warning: __**New report**__";
+		["embeds"] = {{
+			["description"] = "";
+			["color"] = tonumber(0xff0000);
+			["fields"] = {
+				{
+					["name"] = "Reported User:";
+					["value"] = "["..Players:FindFirstChild(tostring(contentTable[2])).DisplayName.." @"..tostring(contentTable[2]).."]".."(https://www.roblox.com/users/"..tostring(contentTable[4]).."/profile)";
+					["inline"] = false;
+				};
+				{
+					["name"] = "Report Made by:";
+					["value"] = "["..Players:FindFirstChild(tostring(contentTable[1])).DisplayName.." @"..tostring(contentTable[1]).."]".."(https://www.roblox.com/users/"..tostring(contentTable[5]).."/profile)";
+					["inline"] = false;
+				};
+				{
+					["name"] = "Report Description:";
+					["value"] = tostring(contentTable[3]);
+					["inline"] = false;
+				};
+				{
+					["name"] = "Server ID";
+					["value"] = tostring(ServerStorage.JoinCode.Value);
+					["inline"] = false;
+				};
+			};
+			["footer"] = {
+				["icon_url"] = "https://media.discordapp.net/attachments/1162122057362964573/1170503055503015966/asdasdasdasdadaddw.png?ex=655946eb&is=6546d1eb&hm=059247a1a2035ba8e1c64306fccecd25a9c5affa18918f1a620e25e91dccabf0&=";
+				["text"] = "FBI Report System | version.2"
+			}
+		}}
+	}
+	HttpService:PostAsync(URL, HttpService:JSONEncode(data))
+end
+
+return module
