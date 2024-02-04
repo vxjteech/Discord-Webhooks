@@ -1,0 +1,9 @@
+ReplicatedStorage.ReportWebhook:FireServer(
+			"SendWebhook", {
+				Players.LocalPlayer.Name;
+				selectedPlayer;
+				ReportReason.Text;
+				reportedUserId;
+				Players.LocalPlayer.UserId
+			}
+		)
